@@ -1,0 +1,263 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neighborhood Helpboard</title>
+  <link rel="icon" type="image/png" href="./assets/favicon.png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-slate-100">
+  <div class="mx-auto flex min-h-screen max-w-6xl flex-col px-4 py-8 sm:px-6 lg:px-8">
+    <header class="relative mb-8 rounded-[2rem] border border-white/10 bg-white/5 p-8 shadow-2xl shadow-slate-950/20 backdrop-blur-xl">
+                <!-- Text column -->
+                    <!-- Small preface (keeps context but low visual weight) -->
+                    <!-- Primary heading made dominant -->
+                    <h1 class="mt-4 text-white font-extrabold leading-tight tracking-tight"style="font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.03;">
+                        Neighborhood Helpboard
+                    </h1>
+                    <!-- Description block (short, supportive, lower contrast) -->
+        <div class="mx-auto max-w-6xl">
+            <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+                <div class="max-w-3xl">
+
+                    <p class="mt-4 max-w-xl text-slate-300 text-lg leading-relaxed">
+                    Connect your community with one quick post. Post updates, alerts, and offers — stay in sync with neighbors in seconds.
+                    </p>
+                </div>
+
+                 <!--div>
+                 <-- Optional image or graphic (commented out for now) -->
+                 <!-- <div class="mt-6 lg:mt-0">
+                    <img src="https://source.unsplash.com/400x300/?community,neighborhood" alt="Community illustration" class="w-full rounded-lg shadow-lg">
+                 </div> -->
+            </div>
+        </div>
+    </header>
+
+
+    <main class="grid gap-6 xl:grid-cols-[1.6fr_0.95fr]">
+      <section class="space-y-6">
+        <div class="rounded-[2rem] bg-white/10 p-6 shadow-2xl shadow-slate-950/30 ring-1 ring-white/10 backdrop-blur-xl">
+          <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 class="text-2xl font-semibold text-white">Post a message</h2>
+              <p class="mt-1 text-sm text-slate-300">Share a quick request, notification, or an offer with the neighborhood.</p>
+            </div>
+          </div>
+
+          <form id="postForm" class="mt-6 space-y-4">
+            <div class="grid gap-4 sm:grid-cols-2">
+              <label class="block text-sm text-slate-200">
+                <span class="mb-2 block font-medium text-slate-200">Username</span>
+                <input id="username" class="w-full rounded-3xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-slate-100 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-400/30" placeholder="Your name" required />
+              </label>
+              <label class="block text-sm text-slate-200">
+                <span class="mb-2 block font-medium text-slate-200">Type</span>
+                <select id="type" class="w-full rounded-3xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-slate-100 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-400/30">
+                  <option value="message">Message</option>
+                  <option value="alert">Alert</option>
+                  <option value="offer">Offer</option>
+                  <option value="info">Info</option>
+                </select>
+              </label>
+            </div>
+
+            <label class="block text-sm text-slate-200">
+              <span class="mb-2 block font-medium text-slate-200">Message</span>
+              <textarea id="message" rows="5" class="w-full rounded-[2rem] border border-slate-700 bg-slate-950/70 px-4 py-4 text-slate-100 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-400/30" placeholder="Describe what you need or can offer" required></textarea>
+            </label>
+
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <button id="submitButton" type="submit" class="inline-flex items-center justify-center rounded-[1.5rem] bg-sky-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-300/70">Post message</button>
+              <p id="status" class="text-sm text-slate-300"></p>
+            </div>
+          </form>
+        </div>
+
+        <div class="rounded-[2rem] bg-white/10 p-6 shadow-2xl shadow-slate-950/30 ring-1 ring-white/10 backdrop-blur-xl">
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 class="text-2xl font-semibold text-white">Recent messages</h2>
+              <p class="mt-1 text-sm text-slate-300">Browse the latest posts from your tribe.</p>
+            </div>
+            <div class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
+              <input id="filterType" placeholder="Filter by type" class="min-w-0 flex-1 rounded-3xl border border-slate-700 bg-slate-950/70 px-4 py-3 text-slate-100 outline-none transition focus:border-sky-400 focus:ring-2 focus:ring-sky-400/30" />
+              <button id="sortButton" class="rounded-[1.5rem] bg-slate-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-600">Sort: Newest</button>
+              <button id="refreshButton" class="rounded-[1.5rem] bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">Refresh</button>
+            </div>
+          </div>
+          <div id="messages" class="mt-6 space-y-4"></div>
+        </div>
+      </section>
+
+      <aside class="rounded-[2rem] bg-slate-950/80 p-6 text-slate-200 shadow-2xl shadow-slate-950/30 ring-1 ring-white/10 backdrop-blur-xl">
+        <h2 class="text-2xl font-semibold text-white">How it works</h2>
+        <p class="mt-3 text-sm leading-6 text-slate-300">The browser UI sends requests to the bridge, which forwards commands to the TCP backend. This keeps the frontend simple while letting the server handle message persistence and retrieval.</p>
+        <div class="mt-6 space-y-4 rounded-[1.75rem] bg-slate-900/70 p-4 ring-1 ring-white/10">
+          <div class="flex items-center justify-between gap-3 text-sm text-slate-300">
+            <span class="font-medium text-slate-200">UI endpoint</span>
+            <span class="rounded-full bg-slate-800 px-3 py-1 uppercase tracking-[0.2em] text-xs text-slate-400">/messages</span>
+          </div>
+          <div class="flex items-center justify-between gap-3 text-sm text-slate-300">
+            <span class="font-medium text-slate-200">Health check</span>
+            <span class="rounded-full bg-slate-800 px-3 py-1 uppercase tracking-[0.2em] text-xs text-slate-400">/health</span>
+          </div>
+          <div class="flex items-center justify-between gap-3 text-sm text-slate-300">
+            <span class="font-medium text-slate-200">Backend TCP host</span>
+            <span class="rounded-full bg-slate-800 px-3 py-1 uppercase tracking-[0.2em] text-xs text-slate-400">127.0.0.1:7000</span>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    const messagesEl = document.getElementById('messages');
+    const statusEl = document.getElementById('status');
+    const submitButton = document.getElementById('submitButton');
+    const sortButton = document.getElementById('sortButton');
+    const endpoint = '/messages';
+    let sortOrder = 'desc';
+
+    const stateClasses = {
+      info: 'text-slate-300',
+      success: 'text-emerald-300',
+      error: 'text-rose-300'
+    };
+
+    function updateSortLabel() {
+      sortButton.textContent = sortOrder === 'asc' ? 'Sort: Oldest' : 'Sort: Newest';
+    }
+
+    function toggleSortOrder() {
+      sortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
+      updateSortLabel();
+      fetchMessages();
+    }
+
+    function setStatus(message, type = 'info') {
+      statusEl.textContent = message;
+      statusEl.className = `text-sm ${stateClasses[type]}`;
+    }
+
+    function clearStatus() {
+      setStatus('', 'info');
+    }
+
+    function createMessageCard(post) {
+      const article = document.createElement('article');
+      article.className = 'overflow-hidden rounded-[1.75rem] border border-white/10 bg-slate-950/75 p-5 shadow-xl shadow-slate-950/20 ring-1 ring-white/5';
+
+      const header = document.createElement('div');
+      header.className = 'flex flex-wrap items-center justify-between gap-3';
+
+      const badgeGroup = document.createElement('div');
+      badgeGroup.className = 'flex flex-wrap items-center gap-2';
+
+      const typeBadge = document.createElement('span');
+      typeBadge.className = 'inline-flex items-center rounded-full bg-slate-800/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-300';
+      typeBadge.textContent = post.type || 'general';
+
+      const byLine = document.createElement('span');
+      byLine.className = 'text-sm text-slate-400';
+      byLine.textContent = `by ${post.username || 'anonymous'}`;
+
+      badgeGroup.append(typeBadge, byLine);
+
+      const idBadge = document.createElement('span');
+      idBadge.className = 'text-xs text-slate-500';
+      idBadge.textContent = `#${post.id ?? 'N/A'}`;
+
+      header.append(badgeGroup, idBadge);
+
+      const message = document.createElement('p');
+      message.className = 'mt-4 text-slate-200 leading-7';
+      message.textContent = post.message || '';
+
+      const footer = document.createElement('div');
+      footer.className = 'mt-5 flex flex-wrap items-center gap-3 text-xs text-slate-500';
+      footer.textContent = post.timestamp ? new Date(post.timestamp * 1000).toLocaleString() : 'Just now';
+
+      article.append(header, message, footer);
+      return article;
+    }
+
+    async function fetchMessages() {
+      const filter = document.getElementById('filterType').value.trim();
+      const url = filter ? `${endpoint}?type_filter=${encodeURIComponent(filter)}&limit=10` : `${endpoint}?limit=10`;
+
+      messagesEl.innerHTML = '<div class="rounded-[1.75rem] bg-slate-900/70 p-6 text-slate-300 ring-1 ring-white/10">Loading messages...</div>';
+      clearStatus();
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error('Failed to fetch messages');
+        }
+        let data = await response.json();
+        messagesEl.innerHTML = '';
+
+        if (!Array.isArray(data) || data.length === 0) {
+          messagesEl.innerHTML = '<div class="rounded-[1.75rem] bg-slate-900/70 p-6 text-slate-300 ring-1 ring-white/10">No messages found. Try posting the first one.</div>';
+          return;
+        }
+
+        data = data.slice(0, 10).sort((a, b) => {
+          const left = a.id ?? a.timestamp ?? 0;
+          const right = b.id ?? b.timestamp ?? 0;
+          return sortOrder === 'asc' ? left - right : right - left;
+        });
+
+        data.forEach(post => messagesEl.appendChild(createMessageCard(post)));
+      } catch (error) {
+        messagesEl.innerHTML = `<div class="rounded-[1.75rem] bg-rose-950/80 p-6 text-rose-200 ring-1 ring-white/10">${error.message}</div>`;
+      }
+    }
+
+    async function submitMessage(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const type = document.getElementById('type').value;
+      const message = document.getElementById('message').value.trim();
+
+      if (!username || !message) {
+        setStatus('Username and message are required.', 'error');
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.classList.add('opacity-70', 'cursor-not-allowed');
+      setStatus('Posting your message...', 'info');
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, type, message })
+        });
+
+        const result = await response.json();
+        if (!response.ok) {
+          throw new Error(result.detail || 'Unable to submit message');
+        }
+
+        setStatus('Message posted successfully.', 'success');
+        document.getElementById('message').value = '';
+        await fetchMessages();
+      } catch (error) {
+        setStatus(error.message, 'error');
+      } finally {
+        submitButton.disabled = false;
+        submitButton.classList.remove('opacity-70', 'cursor-not-allowed');
+      }
+    }
+
+    document.getElementById('postForm').addEventListener('submit', submitMessage);
+    document.getElementById('refreshButton').addEventListener('click', fetchMessages);
+    sortButton.addEventListener('click', toggleSortOrder);
+    updateSortLabel();
+    fetchMessages();
+  </script>
+</body>
+</html>
