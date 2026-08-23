@@ -193,3 +193,4 @@ Netlify can host only the static `index.html` file, but this app also needs `bri
 * Convert `client.py` into a shared client module for both TCP and HTTP access.
 * Add message deleting with an admin token.
 
+
